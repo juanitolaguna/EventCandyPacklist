@@ -5,6 +5,11 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <service id="EventCandyPacklist\Core\Checkout\Document\PacklistGenerator">
+            <argument type="service" id="Shopware\Core\Checkout\Document\Twig\DocumentTemplateRenderer"/>
+            <argument>%kernel.root_dir%</argument>
 
+            <tag name="document.generator"/>
+        </service>
     </services>
 </container>

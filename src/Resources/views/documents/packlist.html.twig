@@ -1,0 +1,107 @@
+{% sw_extends '@Framework/documents/base.html.twig' %}
+
+{% block document_head %}
+    {{ parent() }}
+    <style>
+        .line-item-setproduct td {
+            border-bottom: 1px solid #bebebe;
+        }
+
+        .line-item-setproduct {
+            transform: translate(20px);
+        }
+
+        .doc-title {
+            transform: translate(0px, -20px);
+            font-size: 2em;
+        }
+
+        .line-item-main td {
+            padding-top: 20px;
+            border-bottom: 1px solid gray;
+        }
+
+        .line-item-last td {
+            padding-top: 50px;
+        }
+
+        .line-item-setproduct .product-quantity {
+            transform: translate(-20px);
+        }
+    </style>
+{% endblock %}
+
+{% block document_title_tag %}
+    Packliste
+{% endblock %}
+
+
+{% block document_headline %}
+    <h1 class="doc-title">Packliste</h1>
+{% endblock %}
+
+{% block document_line_item_table_iterator %}
+    {# @var lineItem \Shopware\Core\Checkout\Order\Aggregate\OrderLineItem\OrderLineItemEntity #}
+    {% for lineItem in lineItemPage %}
+        <tr class="line-item{% if loop.first %} first{% endif %} line-item-main">
+            {% block document_line_item_table_rows %}
+                {{ parent() }}
+            {% endblock %}
+        </tr>
+
+        {% if lineItem.payload.setproduct %}
+            {% set setproduct = lineItem.payload.setproduct %}
+            {% for product  in setproduct %}
+                <tr class="line-item line-item-setproduct">
+                    {% if product.product_number %}
+                        <td>{{ product.product_number }}</td>
+                    {% else %}
+                        <td>LW</td>
+                    {% endif %}
+
+                    <td>{{ product.name }}</td>
+                    <td class="align-right product-quantity">{{ product.quantity }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+
+        {% if lineItem.payload['event-candy-label-me'] %}
+            {% set setproduct = lineItem.payload['event-candy-label-me'] %}
+            {% for product  in setproduct %}
+                <tr class="line-item line-item-setproduct">
+                    {% if product.product_number %}
+                        <td>{{ product.product_number }}</td>
+                    {% else %}
+                        <td>LW</td>
+                    {% endif %}
+
+                    <td>{{ product.name }}</td>
+                    <td class="align-right product-quantity">{{ product.quantity }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block document_line_item_table_shipping %}
+    <tr class="line-item line-item-last">
+        <td></td>
+    </tr>
+    {{ parent() }}
+{% endblock %}
+
+{% block document_body %}
+    {{ parent() }}
+
+    {% if config.displayPageCount and not config.displayFooter %}
+        <footer>
+            <div class="page-count">
+                {{ 'document.page'|trans({'%pageNumber%': '<span class="pagenum"></span>'})|sw_sanitize }}
+            </div>
+        </footer>
+
+    {% endif %}
+{% endblock %}
+
+{# {% block document_payment_shipping %} #}
+{# {% endblock %}  #}
