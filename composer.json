@@ -1,5 +1,5 @@
 {
-  "name": "swag/plugin-skeleton",
+  "name": "event-candy/packlist",
   "description": "Packlist Plugin",
   "type": "shopware-platform-plugin",
   "license": "MIT",
@@ -16,8 +16,8 @@
   "extra": {
     "shopware-plugin-class": "EventCandyPacklist\\EventCandyPacklist",
     "label": {
-      "de-DE": "Packliste plugin",
-      "en-GB": "Packlist plugin"
+      "de-DE": "EventCandy Packliste",
+      "en-GB": "EventCandy Packlist"
     }
   }
 }
